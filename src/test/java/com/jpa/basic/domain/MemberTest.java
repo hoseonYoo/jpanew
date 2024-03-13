@@ -76,4 +76,69 @@ class MemberTest {
 //        em.flush(); // insert문 실행! Transaction 끝날 때 자동 Flush 일어남.
     } // 이때 update 쿼리문 실행
 
+
+    @Test
+    public void entityMappingTest(){
+        Team teamA = new Team("teamA");
+        Team teamB = new Team("teamB");
+        em.persist(teamA);
+        em.persist(teamB);
+
+        Member member1 = new Member("member1", 10, teamA);
+        Member member2 = new Member("member2", 20, teamB);
+        Member member3 = new Member("member3", 30, teamA);
+        Member member4 = new Member("member4", 40, teamB);
+        em.persist(member1);
+        em.persist(member2);
+        em.persist(member3);
+        em.persist(member4);
+
+        em.flush();
+        em.clear();
+
+        // 회원 전체 조회
+        List<Member> memberList = em.createQuery("select m from Member m", Member.class)
+                .getResultList();
+
+        memberList.forEach(m -> {
+            System.out.println("m = " + m);
+            System.out.println("m.getTeam() = " + m.getTeam());
+        });
+    }
+
+//    @Test
+//    public void errorTest(){
+//
+//    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }
